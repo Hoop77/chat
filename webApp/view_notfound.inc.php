@@ -1,1 +1,1 @@
-Diese Seite konnte nicht gefunden werden.
+Page not found.
