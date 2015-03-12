@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login_heading">Login</string>
+    <string name="tv_username">Username</string>
+    <string name="tv_password">Password</string>
+    <string name="login_btn_login">Login</string>
+    <string name="register_heading">Register</string>
+    <string name="register_btn_register">Register</string>
+    <string name="login_tv_info">Enter your username and password to log in your account.</string>
+    <string name="register_tv_info">Create a new account by entering your username and password.</string>
+    <string name="login_link_register"><u>Don\'t have an account yet? - Register now!</u></string>
+    <string name="register_link_login"><u>I\'ve already an account. - Login</u></string>
+    <string name="login_progress_dialog">Attempting login...</string>
+</resources>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="link">#FF6897BB</color>
+    <color name="dark_c_h1">#ffffffff</color>
+    <color name="dark_c_p">#ff888888</color>
+    <color name="light_c_h1">#ff000000</color>
+    <color name="light_c_p">#ff888888</color>
+</resources>
