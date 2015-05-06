@@ -17,7 +17,8 @@ function response_success($message, $data_tag = '', $data = null) {
 	if($data_tag != "" && $data != null) {
 		$response[$data_tag] = $data;
 	}
-	echo json_encode($response);
+	die(json_encode($response));
+
 }
 
 function list_strings($strings) {
@@ -49,12 +50,15 @@ function exec_query($db, $query, $query_params, $error_message="") {
 		$result = $stmt->execute($query_params);
 		return $stmt;
 	}
-	catch(PDOException $ex) {
-		echo $ex->getMessage();
-		response_error($error_message);
+	catch(PDOException $e) {
+		response_exception($e->getMessage(), $error_message);
 	}
 
 	return NULL;
+}
+
+function response_exception($e, $error_message="") {
+	response_error($error_message." EXCEPTION: ---".$e."---");
 }
 
 function get_username_by_id($db, $id) {

@@ -113,6 +113,7 @@
         );
 
         exec_query($db, $query, $query_params);
+        response_success("Logged out!");
     }
 
     $logged_in = false;
