@@ -1,8 +1,5 @@
 <?php
 
-require 'config.inc.php';
-require 'common.inc.php';
-
 if(!empty($_POST)) {
 	if(empty($_POST['username']) || empty($_POST['password'])) {
 		response_error("Please enter both a username and password");
@@ -44,7 +41,7 @@ if(!empty($_POST)) {
 
 ?>
 
-<form action="register.php" method="post">
+<form action="index.php?view=register" method="post">
 	<input type="text" name="username" placeholder="username">
 	<input type="password" name="password" placeholder="password">
 	<input type="submit" value="Register">

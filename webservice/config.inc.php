@@ -79,4 +79,73 @@
 
     session_start(); 
     $session_id = session_id();
+
+    // *******************************************************************************************
+
+    require "common.inc.php";
+
+    // suppose that we're logged in
+    $view = "home";
+
+    if(!empty($_GET['view'])) {
+        // view was passed in
+        $view = $_GET['view'];
+    }
+
+    // protect view name (allow only letters and numbers)
+    $view = preg_replace("/[^a-z0-9_]/", "", $view);
+
+    // allow registering
+    $view_register = false;
+    if($view == "register")
+        $view_register = true;
+
+    // allow login
+    $view_login = false;
+    if($view == "login")
+        $view_login = true;
+
+    // delete session
+    if(!empty($_GET['logout'])) {
+        $query = "DELETE FROM sessions WHERE session_id = :session_id";
+        $query_params = array(
+            ':session_id' => $session_id
+        );
+
+        exec_query($db, $query, $query_params);
+    }
+
+    $logged_in = false;
+
+    // checking login
+    // access on session table?
+    $query = "SELECT * FROM sessions WHERE session_id = :session_id";
+    $query_params = array(
+        ':session_id' => $session_id
+    );
+
+    $stmt = exec_query($db, $query, $query_params);
+
+    $row = $stmt->fetch();
+    if($row) {
+        $logged_in = true;
+        $active_user_id = $row['user_id'];
+        $active_username = get_username_by_id($db, $active_user_id);
+    }
+
+    // show authentification_error view if not logged in
+    // and current view is neither register nor login
+    if(!$logged_in) {
+        if(!$view_register && !$view_login)
+            $view = "authentication_error";
+    }
+
+    // build view-filename
+    $incfile = "view_".$view.".inc.php";
+    if(!file_exists($incfile)) {
+        $incfile = "view_notfound.inc.php";
+    }
+
+    require $incfile;
+
 ?>

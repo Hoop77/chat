@@ -1,16 +1,9 @@
 <?php
 
-require 'common.inc.php';
-require 'config.inc.php';
-
-if(!empty($_POST['add_usernames']) && 
-	!empty($_POST['active_username']) && 
-	!empty($_POST['password'])) {
-
-	// checking if active username is valid
-	validate_credentials($db, $_POST['active_username'], $_POST['password']);
-	$active_username = $_POST['active_username'];
-	$active_user_id = get_id_by_username($db, $active_username);
+if(!empty($_POST)) {
+	// ensure that at least 'add_usernames'-parameter is given
+	if(empty($_POST['add_usernames']))
+		response_error("Error: Invalid post params!");
 
 	// asuming that chat does not already exists
 	$chat_already_exists = false;
@@ -26,8 +19,15 @@ if(!empty($_POST['add_usernames']) &&
 	if(!empty($not_existing_usernames)) {
 		// concat not existing usernames to one string
 		$str_not_existing_usernames = list_strings($not_existing_usernames);
-		response_error("Username(s) do not exist: " . $str_not_existing_usernames);
+		response_error("Error: Username(s) do not exist: " . $str_not_existing_usernames);
 	}
+
+	// only active username given
+	if(count($add_usernames) == 1) {
+		if($add_usernames[0] === $active_username)
+			response_error("Error: No chat members given!");
+	}
+
 	// all usernames exist
 	// put active username in list if not done yet
 	if(!string_exists_in_strings($active_username, $add_usernames)) {
@@ -160,9 +160,7 @@ if(!empty($_POST['add_usernames']) &&
 
 ?>
 
-<form action="add_chat.php" method="post">
-	<input type="text" name="active_username" placeholder="active_username">
-	<input type="password" name="password" placeholder="password">
+<form action="index.php?view=add_chat" method="post">
 	<input type="text" name="add_usernames" placeholder="add_usernames">
 	<label for="cb-is-group">
 		<input id="cb-is-group" type="checkbox" name="is_group">

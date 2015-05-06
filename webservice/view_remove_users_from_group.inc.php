@@ -1,15 +1,9 @@
 <?php
 
-require 'common.inc.php';
-require 'config.inc.php';
-
-if(	!empty($_POST['active_username']) &&
-	!empty($_POST['password']) &&
-	!empty($_POST['remove_usernames']) &&
-	!empty($_POST['chat_id'])) {
-
-	// checking if active username is valid
-	validate_credentials($db, $_POST['active_username'], $_POST['password']);
+if(!empty($_POST)) {
+	// ensure post params are set
+	if(empty($_POST['remove_usernames']) || empty($_POST['chat_id']))
+		response_error("Error: Invalid post params!");
 
 	// put input usernames in a list
 	$str_remove_usernames = preg_replace('/\s+/', '', $_POST['remove_usernames']);
@@ -123,10 +117,8 @@ if(	!empty($_POST['active_username']) &&
 
 ?>
 
-<form action="remove_user_from_group.php" method="post">
-	<input type="text" name="active_username" placeholder="active_username">
-	<input type="password" name="password" placeholder="password">
+<form action="index.php?view=remove_users_from_group" method="post">
 	<input type="text" name="remove_usernames" placeholder="remove_usernames">
 	<input type="text" name="chat_id" placeholder="chat_id">
-	<input type="submit" value="Delete new group">
+	<input type="submit" value="Delete from group">
 </form>
